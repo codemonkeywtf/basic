@@ -1,6 +1,6 @@
 use error_chain::error_chain;
 use std::io::copy;
-use std::fs::File;
+use std::fs::{File, self};
 use std::path::PathBuf;
 
 error_chain! {
@@ -12,7 +12,8 @@ error_chain! {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    for i in 2..182 {
+    fs::create_dir_all("./pages")?;
+    for i in 2..=181 {
         let img = format!("https://atariarchives.org/basicgames/pages/page{i}.gif");
         let response = reqwest::get(img).await?;
 
